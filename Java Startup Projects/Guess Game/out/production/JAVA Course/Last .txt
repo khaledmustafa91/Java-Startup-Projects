@@ -1,0 +1,120 @@
+using System;
+using System.Collections.Generic;
+
+namespace ArraySorting
+{
+    // *****************************************
+    // DON'T CHANGE CLASS OR FUNCTION NAME
+    // YOU CAN ADD FUNCTIONS IF YOU NEED TO
+    // *****************************************
+    public static class ArraySorting
+    {
+        //==================
+        //Your Code is Here
+        //==================
+
+        /// <summary>
+        /// Use the merge and the insertion sort to sort a given N array
+        /// </summary>
+        /// <param name="numbers">All numbers</param>
+        /// <param name="N">The array size</param>
+        /// <param name="MergeThreshold">The merge insertion threshold at which insertion sort starts to complete the sorting process</param>
+        /// <param name="Flag">Flag = TRUE in case we need to sort using MERGE_INSERTON and Flag = FALSE in case we need to sort using MERGE sort</param>
+        /// <returns>The sorted array</returns>
+        public static int[] SortArray(int[] numbers, int N, int threshold, bool flag)
+        {
+            if (flag == true)
+            {
+                Merge_Sort(numbers, 0, N - 1);
+                //insertion_sort(numbers);
+            }
+            if (flag == false)
+            {
+                Merge_Sort(numbers, 0, N - 1);
+            }
+            return numbers;
+
+
+        }
+        public static int[] Merge_Sort(int[] A, int s, int e)
+        {
+            if (s < e)
+            {
+                int q = (s + e) / 2;
+                if (q > 30)
+                {
+                    Merge_Sort(A, s, q);
+                    Merge_Sort(A, q + 1, e);
+                    Merge(A, s, q, e);
+                }
+                else
+                    insertion_sort(A);
+            }
+            return A;
+        }
+        public static int[] Merge(int[] A, int s, int q, int e)
+        {
+            int x = q - s + 1;
+            int y = e - q;
+            int[] L = new int[x];
+            int[] R = new int[y];
+            int j = 0, i = 0, k = 0;
+            for (i = 0; i < x; i++) L[i] = A[s + i];
+            for (i = 0; i < y; i++) R[i] = A[q + i + 1];
+
+            /*if (x == 30)
+                insertion_sort(L);
+            else if (y == 30)
+                insertion_sort(R);*/
+            i = 0;
+            j = 0;
+
+            for (k = s; i < x && j < y; k++)
+            {
+
+                if (L[i] <= R[j])
+                {
+                    A[k] = L[i];
+                    i++;
+                }
+                else if (L[i] > R[j])
+                {
+                    A[k] = R[j];
+                    j++;
+                }
+            }
+            while (i < x)
+            {
+                A[k] = L[i];
+                i++;
+                k++;
+            }
+            while (j < y)
+            {
+                A[k] = R[j];
+                j++;
+                k++;
+            }
+
+            return A;
+        }
+        //////////////////
+        public static int[] insertion_sort(int[] A)
+        {
+            int size = A.GetLength(0);
+            for (int i = 1; i < size; i++)
+            {
+                int j = i - 1;
+                int temp = A[i];
+                while (j >= 0 && A[j] > temp)
+                {
+                    A[j + 1] = A[j];
+                    j--;
+                }
+                A[j + 1] = temp;
+            }
+            return A;
+        }
+
+    }
+}
